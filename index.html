@@ -7,20 +7,22 @@
     <title>Document</title>
     <link rel="stylesheet" type= "text/css" href= "assets/css/style.css">
     <link rel="stylesheet" type= "text/css" href= "assets/css/reset.css">
-    <link rel= "javascript" type= "text/javascript" href= "assests/javascript/game.js">
     <title>Word Guess Game</title>
 </head>
 <body>
     <h1>Welcome to the Amy Winehouse Game</h1>
-        <h2>Guess the title of an Amy Wineshouse song</h2>
-        <p>Start guessing letters to begin</p>
-    <script>
+    <h2>Guess the title of an Amy Winehouse song</h2>
+    <p>Start guessing letters to begin</p>
     
-    document.onkeyup(event){
-        
-    }
-    <p id ="frank"></p>
-   
-    </script>
+    <!-- start game button -->
+    <button class="btnstrt">Start</button>
+    
+    <p id="feedback" class="feedback"></p>
+    <p id="guess" class="guess"></p>
+    <p id="wrong" class="wrong"></p>
+    <p id="winners" class="winners"></p>
+    <p id="loser" class="loser"></p>
+    
+    <script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
 </html>
