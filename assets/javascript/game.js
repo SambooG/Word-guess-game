@@ -4,17 +4,14 @@
 // Event Listener that allows to interact with our game
 console.log("wins")
 const words = ["frank", "backtoblack", "rehab", "Valerie"];
+// let attempts = 0  // We don't need this since we have guessAttempts on line 11
 let currentWord = '';
 let wins = 0;
 let losses = 0;
 let guessAttempts = 10;
-let incorrectGuesses = [];
-let correctGuess = [];
+let incorrectGuessesList = [];
+let correctGuessList = [];
 
-/*
-   GOOGLE
-   [_, O, O, _, _, _];
-*/
 
 /*
 function listenForGuesses() {
@@ -31,12 +28,12 @@ function listenForGuesses() {
 } i
 */
 
-function listenToGuessesNew() {
-  document.onkeyup = function(event) {
-    if (guessAttempts > 0 && correctGuess.includes('_')) {
+// function listenToGuessesNew() {
+//   document.onkeyup = function(event) {
+//     if (guessAttempts > 0 && correctGuess.includes('_')) {
       // Play Game
-    }
-    else if (guessAttempts < 1) {
+    // }
+    // else if (guessAttempts < 1) {
       // Tell them they lost
       // Add a loss
       /*
@@ -47,8 +44,8 @@ function listenToGuessesNew() {
         // but we do not reset wins and losses as we want to keep on trakcing that
       */
        
-    }
-    else if (correctGuess.includes('_') === false) {
+    // }
+    // else if (correctGuess.includes('_') === false) {
       // The won
       // Tell them they won
       // Add a win
@@ -59,62 +56,76 @@ function listenToGuessesNew() {
         3. resetting our attempts to 10 for the new word
         // but we do not reset wins and losses as we want to keep on trakcing that
       */
-    }
-  }
-}
+//     }
+//   }
+// }
 
 function listenToGuesses() {
   document.onkeyup = function(event){
-    if (guessAttempts > 0 && correctGuess.includes('_')) {
-      // //???// Character code for the key // (gives you a number)
-      //;// You want the actual letter
-    }
+    console.log("LISTENING TO GUESSES NOW :)");
+    if (guessAttempts > 0 && correctGuessList.includes('_')) {
+      const numericalGuessedValue = event.keyCode;
+      const guessedValueAsLetter = event.key;
+    
+    // So the alert on line 76 runs every time? What do you get for the below console logs?  
+      console.log("Numerical Guessed Value", numericalGuessedValue); // 
+      console.log("Guessed Value As Letter", guessedValueAsLetter); 
+      
       // Listen for what they press
-          if (value < 97 || value > 122) {
+          if (numericalGuessedValue < 65 || numericalGuessedValue > 91) { // MIKE CHANGED THIS TO MATCH
             // Alert that they didn't select a letter
             alert('Not a letter');
           } else {
-            value = string.fromCharCode
+            console.log("IT IS A LETTER")
             // Did they already guess this letter? // check against incorrect guesses and correctGuess
-            if (incorrectGuesses.includes(value)) {
+            if (incorrectGuessesList.includes(guessedValueAsLetter)) {
               // Show an alert that they guessed 
-              alert("you already guessed this");
+              alert("you already guessed this"); 
               // Return 
               return;
             }
             //Check to see if it matches letter(s) in the word
             let didMatch = false;
             for (let i = 0; i < currentWord.length; i++) {
-              if (currentLetter === currentWord[i]) {
-                  // Change underscore(s) to that letter (this should be shown to the user)  
-                  document.getElementById(correctGuess)
-                  didMatch = true;
+              const currentLetterInChosenWord = currentWord[i];
+              if (guessedValueAsLetter === currentLetterInChosenWord) {
                   // The index for the characters in currentWord match with the indeces in correctGuess
-                  // [_,_,l,l,_]
+                  // [_,_,_,_,_]
                   //  h e l l 0
                   //  0 1 2 3 4
-                  correctGuess[i] = value;
+                  // [h,_,_,_,_]
+                  // Change underscore(s) to that letter (this should be shown to the user)  
+                  correctGuessList[i] = currentLetterInChosenWord;
+                  // So we know later on not to deduct a guessAttempt
+                  didMatch = true;
               }
             }
+            // After we've checked all the letters, update the guess list
+            document.getElementById("guess").textContent = correctGuessList.join("");
             
             // If it doesn't match
             if(didMatch === false) {
-              incorrectGuesses.push(currentLetter);
+              // Add the letter to the incorrect guesses list
+              incorrectGuessesList.push(guessedValueAsLetter);
               // Remove an attempt
               guessAttempts--;
               // Shown on the screen as an incorrect guess
-              document.getElementById("wrong").textContent = incorrectGuesses.join('');
+              document.getElementById("attempts").textContent = guessAttempts;
+              document.getElementById("wrong").textContent = incorrectGuessesList.join('');
             }
           // Repeat this for the next guess
           }
       // If they have used all of their attempts without getting the word
     }
+    
     else if (guessAttempts < 1) {
       losses++;
       // Add a loss
+
       alert("loser");
       // Alert that they've lost
       // Restart the game
+      gameBegin();
     }
     // If they win
     else if (correctGuess.includes('_') === false){
@@ -123,16 +134,22 @@ function listenToGuesses() {
         wins++;
         // Add a win
         // Restart the game // gameBegin()
+        gameBegin();
     }
   }
 }
 
-// words = ['Hello']
 //trying to reset for new game
 function gameBegin() {
-  correctGuess =[];
-  incorrectGuesses = [];
+  console.log("Game Begins");
+
+  correctGuessList = [];
+  incorrectGuessesList = [];
   guessAttempts = 10;
+  document.getElementById("winners").textContent = wins;
+  document.getElementById("loser").textContent = losses;
+  document.getElementById("attempts").textContent = guessAttempts;
+
   // Pick a word for this current game from some list
   currentWord = words[Math.floor(Math.random()* words.length)];
       console.log(currentWord);
@@ -143,17 +160,18 @@ function gameBegin() {
     // currentWordLength = 5;
     // last index of currentWord = 4
   for (let i = 0; i < currentWord.length; i++){
-    correctGuess.push("_");
+    correctGuessList.push("_");
   };
   console.log("currentWord:", currentWord.length)
-  console.log('CorrectGuess:', correctGuess)
-  document.getElementById("guess").textContent = correctGuess.join("");
+  console.log('CorrectGuess:', correctGuessList)
+  document.getElementById("guess").textContent = correctGuessList.join("");
   // correctGuess = ["_", "_", "_", "_", "_"];
 
 
   listenToGuesses();
 };
 
+// This function call is what starts our game. We need to call gameBegin() to start the game
 gameBegin();
 
 
