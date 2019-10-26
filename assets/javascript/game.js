@@ -15,78 +15,143 @@ let correctGuess = [];
    GOOGLE
    [_, O, O, _, _, _];
 */
+
+/*
+function listenForGuesses() {
+  // If they have attempts left and have not guessed the word yet
+    // Keep on playing
+  // Else if they have used all their attempts without guessing the word
+    // Tell them they've failed
+    // Add a loss
+    // restart the game
+  // Else if they have guessed the word
+    // Tell them they rock
+    // Add a win
+    // Restart the game
+} i
+*/
+
+function listenToGuessesNew() {
+  document.onkeyup = function(event) {
+    if (guessAttempts > 0 && correctGuess.includes('_')) {
+      // Play Game
+    }
+    else if (guessAttempts < 1) {
+      // Tell them they lost
+      // Add a loss
+      /*
+       Restart the Game. This will involve:
+        1. resetting our incorrectGuesses to [] for the new word
+        2. resetting our correctGuesses to [] for the new word
+        3. resetting our attempts to 10 for the new word
+        // but we do not reset wins and losses as we want to keep on trakcing that
+      */
+       
+    }
+    else if (correctGuess.includes('_') === false) {
+      // The won
+      // Tell them they won
+      // Add a win
+      /*
+       Restart the Game. This will involve:
+        1. resetting our incorrectGuesses to [] for the new word
+        2. resetting our correctGuesses to [] for the new word
+        3. resetting our attempts to 10 for the new word
+        // but we do not reset wins and losses as we want to keep on trakcing that
+      */
+    }
+  }
+}
+
 function listenToGuesses() {
-  document.onkeyup(event){
-    let value = event.key;
-        // Listen for what they press
-        if (value.charCode < 65 || value.charCode > 90) {
-          alert('yes!');
-        } else {
-          let didMatch = false;
-          // Did they already guess this letter? // check against incorrect guesses and correctGuess
-           for (let i = 0; i === incorrectGuesses.length; i++){
-             // Show an alert that they guessed 
-            alert("you already guessed this");
-            // Return 
-            return;
-           }
-          //Check to see if it matches letter(s) in the word
-             for (let i = 0; i < currentWord.length; i++) {
-               if (value === currentWord[i]) {
+  document.onkeyup = function(event){
+    if (guessAttempts > 0 && correctGuess.includes('_')) {
+      // //???// Character code for the key // (gives you a number)
+      //;// You want the actual letter
+    }
+      // Listen for what they press
+          if (value < 97 || value > 122) {
+            // Alert that they didn't select a letter
+            alert('Not a letter');
+          } else {
+            value = string.fromCharCode
+            // Did they already guess this letter? // check against incorrect guesses and correctGuess
+            if (incorrectGuesses.includes(value)) {
+              // Show an alert that they guessed 
+              alert("you already guessed this");
+              // Return 
+              return;
+            }
+            //Check to see if it matches letter(s) in the word
+            let didMatch = false;
+            for (let i = 0; i < currentWord.length; i++) {
+              if (currentLetter === currentWord[i]) {
                   // Change underscore(s) to that letter (this should be shown to the user)  
+                  document.getElementById(correctGuess)
                   didMatch = true;
-                 correctGuess[i] = value;
-               }
-             }
-           
-          // If it doesn't match
-          else {
-            incorrectGuesses.push(letter);
+                  // The index for the characters in currentWord match with the indeces in correctGuess
+                  // [_,_,l,l,_]
+                  //  h e l l 0
+                  //  0 1 2 3 4
+                  correctGuess[i] = value;
+              }
+            }
+            
+            // If it doesn't match
+            if(didMatch === false) {
+              incorrectGuesses.push(currentLetter);
+              // Remove an attempt
+              guessAttempts--;
+              // Shown on the screen as an incorrect guess
+              document.getElementById("wrong").textContent = incorrectGuesses.join('');
+            }
+          // Repeat this for the next guess
           }
-            // Shown on the screen as an incorrect guess
-            guessAttempts--;
-            // Remove an attempt
-        // Repeat this for the next guess
-        }
-  
-    // If they have used all of their attempts without getting the word
-    if (guessAttempts === 0) {
+      // If they have used all of their attempts without getting the word
+    }
+    else if (guessAttempts < 1) {
       losses++;
       // Add a loss
       alert("loser");
       // Alert that they've lost
+      // Restart the game
     }
     // If they win
-    else if (currentWord = 
+    else if (correctGuess.includes('_') === false){
         // Alert that they've won
         alert("youwin!!!");
         wins++;
         // Add a win
+        // Restart the game // gameBegin()
+    }
   }
 }
 
-function gameBegin(){
+// words = ['Hello']
+//trying to reset for new game
+function gameBegin() {
+  correctGuess =[];
+  incorrectGuesses = [];
+  guessAttempts = 10;
   // Pick a word for this current game from some list
   currentWord = words[Math.floor(Math.random()* words.length)];
-      console.log(word);
+      console.log(currentWord);
   
-  let wordLength = word.length;
+
 
   // Loop (as long as i < wordLength) { correctGuess.push('_') }
-    // [_, _, _, ....];
-    // correctGuess.join(' '); (Show this on the page) // Array.join
-  for (let i = 0; i < word.length; i++);{
+    // currentWordLength = 5;
+    // last index of currentWord = 4
+  for (let i = 0; i < currentWord.length; i++){
     correctGuess.push("_");
-    let correctGuess = [];
-    correctGuess(array.join(''));
-
   };
+  console.log("currentWord:", currentWord.length)
+  console.log('CorrectGuess:', correctGuess)
+  document.getElementById("guess").textContent = correctGuess.join("");
+  // correctGuess = ["_", "_", "_", "_", "_"];
 
-    while (guessAttempts > 0 && correctGuess.join('') === currentWord) {
-      listenToGuesses();
-    }
 
-    // Restart the game
+  listenToGuesses();
 };
 
 gameBegin();
